@@ -3,57 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dynamic AR Example</title>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@1.9.0/dist/model-viewer.js"></script>
+  <title>AR.js Marker Example</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
   <style>
-    body {
-      text-align: center;
-      padding: 20px;
-    }
-    button {
-      background-color: #007bff;
-      color: white;
-      padding: 10px 20px;
-      font-size: 18px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-    #ar-viewer {
-      width: 100%;
-      height: 80vh;
-      display: none; /* initially hidden */
-    }
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
   </style>
 </head>
 <body>
+  <h1 style="text-align: center;">AR.js with A-Frame</h1>
 
-  <h1>Dynamic AR Model Example</h1>
-  
-  <!-- Button to trigger AR element -->
-  <button id="show-ar-btn">Show AR</button>
+  <!-- A-Frame Scene -->
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
+    <!-- Marker Definition -->
+    <a-marker type="pattern" url="https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/pattern-images/pattern-arjs.png">
+      <!-- 3D Box Entity -->
+      <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
+    </a-marker>
 
-  <!-- Model Viewer for AR -->
-  <model-viewer id="ar-viewer" alt="3D Model" src="" ar ios-src="" auto-rotate camera-controls></model-viewer>
-
-  <script>
-    document.getElementById('show-ar-btn').addEventListener('click', function() {
-      // Fetch data (e.g., 3D model URL) from an external source or JSON
-      const modelData = {
-        src: 'https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.glb',
-        iosSrc: 'https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.usdz'
-      };
-
-      // Get the model-viewer element and set the model URLs dynamically
-      const modelViewer = document.getElementById('ar-viewer');
-      modelViewer.setAttribute('src', modelData.src);
-      modelViewer.setAttribute('ios-src', modelData.iosSrc);
-
-      // Display the model viewer and hide the button
-      modelViewer.style.display = 'block';
-      document.getElementById('show-ar-btn').style.display = 'none';
-    });
-  </script>
+    <!-- Camera -->
+    <a-entity camera></a-entity>
+  </a-scene>
 
 </body>
 </html>
