@@ -3,19 +3,87 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR with Model Viewer</title>
-  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@1.9.0/dist/model-viewer.js"></script>
+  <title>WebXR AR Example</title>
+  <style>
+    body { margin: 0; overflow: hidden; }
+    canvas { display: block; }
+    #ar-container { width: 100%; height: 100vh; }
+  </style>
 </head>
 <body>
-  <h1>3D Model with AR</h1>
+  <h1 style="text-align: center;">WebXR AR Example</h1>
+  
+  <div id="ar-container"></div>
 
-  <model-viewer src="https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.glb" 
-                alt="A 3D model" 
-                ar 
-                ios-src="https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.usdz" 
-                auto-rotate 
-                camera-controls>
-  </model-viewer>
+  <script>
+    let xrSession = null;
+    let renderer = null;
+    let scene = null;
+    let camera = null;
+    let controller = null;
+    
+    const arContainer = document.getElementById('ar-container');
+    
+    // Funktion, um AR zu starten
+    async function startAR() {
+      if (!navigator.xr) {
+        alert('WebXR wird von diesem Browser nicht unterstützt.');
+        return;
+      }
 
+      // Starte eine AR-Sitzung
+      try {
+        xrSession = await navigator.xr.requestSession('immersive-ar', {
+          requiredFeatures: ['hit-test', 'viewer', 'local'],
+        });
+        
+        // Renderer und Kamera initialisieren
+        renderer = new THREE.WebGLRenderer({ canvas: document.createElement('canvas') });
+        renderer.autoClear = false;
+        renderer.xr.enabled = true;
+        
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera();
+        
+        // AR-Elemente hinzufügen
+        const geometry = new THREE.BoxGeometry(0.5, 0.5, 0.5);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const cube = new THREE.Mesh(geometry, material);
+        scene.add(cube);
+
+        // Fügt die Szene zum AR-Container hinzu
+        arContainer.appendChild(renderer.domElement);
+        
+        // Handle AR-Updates
+        xrSession.addEventListener('end', () => {
+          renderer.dispose();
+          xrSession = null;
+        });
+
+        xrSession.requestReferenceSpace('local').then((referenceSpace) => {
+          xrSession.requestAnimationFrame((time, frame) => {
+            renderer.render(scene, camera);
+            xrSession.requestAnimationFrame((time, frame) => {
+              renderer.render(scene, camera);
+            });
+          });
+        });
+
+      } catch (err) {
+        console.error("Fehler beim Starten von WebXR: ", err);
+      }
+    }
+
+    // Button zum Starten von AR
+    const arButton = document.createElement('button');
+    arButton.innerText = 'Start AR';
+    arButton.style.position = 'absolute';
+    arButton.style.top = '20px';
+    arButton.style.left = '50%';
+    arButton.style.transform = 'translateX(-50%)';
+    arButton.onclick = startAR;
+    document.body.appendChild(arButton);
+
+  </script>
 </body>
 </html>
