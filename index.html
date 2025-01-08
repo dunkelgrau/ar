@@ -12,9 +12,9 @@
   </style>
 </head>
 <body>
-  <a-scene embedded arjs>
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam;">
     <!-- Marker Definition -->
-    <a-marker type="pattern" url="https://stemkoski.github.io/AR-Examples/markers/hiro.png">
+    <a-marker type="pattern" url="https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/pattern-images/pattern-arjs.png">
       <!-- 3D Model -->
       <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
     </a-marker>
