@@ -3,27 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR.js with A-Frame</title>
+  <title>AR.js Marker Example</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
   <style>
-    body { margin: 0; overflow: hidden; }
-    canvas { display: block; }
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
   </style>
 </head>
 <body>
 
-  <!-- A-Frame AR Scene -->
-  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
-
-    <!-- Marker with 3D Model -->
+  <!-- AR.js Scene Setup -->
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; markersAreaEnabled: true; debugUIEnabled: true;">
+    
+    <!-- Marker Definition -->
     <a-marker type="pattern" url="https://jeromeetienne.github.io/AR.js/three.js/examples/marker-training/examples/pattern-images/pattern-arjs.png">
+      <!-- 3D Model -->
       <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
     </a-marker>
 
     <!-- Camera -->
     <a-entity camera></a-entity>
-
+    
   </a-scene>
 
 </body>
