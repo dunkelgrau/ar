@@ -3,40 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR with Hiro Marker</title>
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      flex-direction: column;
-    }
-    a-scene {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-    }
-  </style>
+  <title>WebXR AR Example</title>
 </head>
 <body>
-
-  <!-- A-Frame Scene for AR -->
-  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
-
-    <!-- Marker Definition: Hiro Marker -->
-    <a-marker type="pattern" url="https://stemkoski.github.io/AR-Examples/markers/hiro.png">
-      <!-- 3D Model to display (red box) -->
-      <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
-    </a-marker>
-
-    <!-- Camera -->
-    <a-entity camera></a-entity>
-  </a-scene>
-
+  <h1>WebXR AR Example</h1>
+  <button id="start-ar">Start AR</button>
+  <script>
+    const startARButton = document.getElementById('start-ar');
+    
+    startARButton.addEventListener('click', () => {
+      if (navigator.xr && navigator.xr.isSessionSupported) {
+        navigator.xr.isSessionSupported('immersive-ar').then((supported) => {
+          if (supported) {
+            // Session starten (hier kannst du AR-Elemente einfügen)
+            navigator.xr.requestSession('immersive-ar').then((session) => {
+              // Session erstellen und AR-Inhalte laden
+              console.log('AR Session started!');
+            });
+          } else {
+            alert('AR not supported on this device.');
+          }
+        });
+      } else {
+        alert('WebXR is not supported.');
+      }
+    });
+  </script>
 </body>
 </html>
