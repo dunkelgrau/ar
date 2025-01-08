@@ -3,39 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR.js Marker Example</title>
-
-  <!-- Verwende eine stabile Version von A-Frame -->
-  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
-
-  <!-- Verwende eine stabile Version von AR.js -->
-  <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js@2.2.0/aframe/build/aframe-ar.js"></script>
-
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-    canvas {
-      display: block;
-    }
-  </style>
+  <title>3D Model with AR</title>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@google/model-viewer@1.9.0/dist/model-viewer.js"></script>
 </head>
 <body>
-
-  <!-- AR.js Scene Setup -->
-  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
-
-    <!-- Marker Definition -->
-    <a-marker type="pattern" url="https://dunkelgrau.github.io/ar/hiro.png">
-      <!-- 3D Model -->
-      <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
-    </a-marker>
-
-    <!-- Camera -->
-    <a-entity camera></a-entity>
-    
-  </a-scene>
+  <h1>3D Model with AR</h1>
+  
+  <!-- Das AR Modell im .glb Format für Web -->
+  <model-viewer src="https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.glb" alt="A 3D model" 
+                ar 
+                ios-src="https://cdn.jsdelivr.net/gh/google/model-viewer/examples/assets/robot.usdz" 
+                auto-rotate 
+                camera-controls>
+  </model-viewer>
 
 </body>
 </html>
