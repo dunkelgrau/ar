@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AR with Button Click</title>
+  <title>AR with Hiro Marker</title>
   <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/jeromeetienne/AR.js/aframe/build/aframe-ar.js"></script>
   <style>
@@ -16,18 +16,6 @@
       height: 100vh;
       flex-direction: column;
     }
-    button {
-      position: absolute;
-      top: 20px;
-      z-index: 1;
-      padding: 10px 20px;
-      font-size: 16px;
-      background-color: #007bff;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-    }
     a-scene {
       width: 100%;
       height: 100%;
@@ -37,32 +25,18 @@
 </head>
 <body>
 
-  <!-- Button to trigger AR element -->
-  <button id="show-ar-btn">Show AR2</button>
-
   <!-- A-Frame Scene for AR -->
-  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: false;" id="ar-scene">
-    
-    <!-- 3D Model will be initially hidden -->
-    <a-entity id="ar-box" geometry="primitive: box; depth: 1; height: 1; width: 1" 
-              material="color: red" position="0 0.5 0" visible="false"></a-entity>
-    
+  <a-scene embedded arjs="trackingMethod: best; sourceType: webcam; debugUIEnabled: true;">
+
+    <!-- Marker Definition: Hiro Marker -->
+    <a-marker type="pattern" url="https://stemkoski.github.io/AR-Examples/markers/hiro.png">
+      <!-- 3D Model to display (red box) -->
+      <a-entity geometry="primitive: box; depth: 1; height: 1; width: 1" material="color: red" position="0 0.5 0"></a-entity>
+    </a-marker>
+
     <!-- Camera -->
     <a-entity camera></a-entity>
   </a-scene>
-
-  <script>
-    // Button to show AR element
-    const arButton = document.getElementById('show-ar-btn');
-    const arScene = document.getElementById('ar-scene');
-    const arBox = document.getElementById('ar-box');
-
-    // Event listener to show AR element
-    arButton.addEventListener('click', () => {
-      arBox.setAttribute('visible', 'true'); // Show the AR box
-      arButton.style.display = 'none'; // Hide the button after click
-    });
-  </script>
 
 </body>
 </html>
