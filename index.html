@@ -1,54 +1,35 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/ar.js@3.3.2/aframe/build/aframe-ar.min.js"></script>
-    <style>
-      .arjs-loader {
-        height: 100%;
-        width: 100%;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, 0.8);
-        z-index: 9999;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .arjs-loader div {
-        text-align: center;
-        font-size: 1.25em;
-        color: white;
-      }
-    </style>
+    <title>WebXR AR Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/webxr/VRButton.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.155.0/examples/js/webxr/ARButton.js"></script>
   </head>
-  <body style="margin : 0px; overflow: hidden;">
-    <div class="arjs-loader">
-      <div>Loading, please wait...</div>
-    </div>
-    <a-scene
-      vr-mode-ui="enabled: false;"
-      renderer="logarithmicDepthBuffer: true; precision: medium;"
-      embedded
-      arjs="sourceType: webcam;"
-    >
-      <a-nft
-        type="nft"
-        url="https://dunkelgrau.github.io/ar/trex-image/"
-        smooth="true"
-        smoothCount="10"
-        smoothTolerance=".01"
-        smoothThreshold="5"
-      >
-        <a-entity
-          gltf-model="https://dunkelgrau.github.io/ar/scene.gltf"
-          scale="5 5 5"
-          position="150 300 -100"
-        >
-        </a-entity>
-      </a-nft>
-      <a-entity camera></a-entity>
-    </a-scene>
+  <body style="margin: 0; overflow: hidden;">
+    <script>
+      // Scene setup
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+      const renderer = new THREE.WebGLRenderer({ antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.xr.enabled = true;
+      document.body.appendChild(renderer.domElement);
+
+      // Add AR Button
+      document.body.appendChild(THREE.ARButton.createButton(renderer));
+
+      // Add a simple cube
+      const geometry = new THREE.BoxGeometry(0.1, 0.1, 0.1);
+      const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+      const cube = new THREE.Mesh(geometry, material);
+      cube.position.set(0, 0.1, -0.5);
+      scene.add(cube);
+
+      // Animation loop
+      renderer.setAnimationLoop(() => {
+        renderer.render(scene, camera);
+      });
+    </script>
   </body>
 </html>
